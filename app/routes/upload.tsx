@@ -1,5 +1,4 @@
-import path from "path";
-import { prepareInstructions } from "../../constants";
+import { AIResponseFormat, prepareInstructions } from "../../constants";
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import FileUploader from "~/components/FileUploader";
@@ -67,7 +66,7 @@ const upload = () => {
         prepareInstructions({
           jobTitle,
           jobDescription,
-          AIResponseFormat: "JSON",
+          AIResponseFormat,
         })
       );
   

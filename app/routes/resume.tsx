@@ -1,4 +1,3 @@
-import { fetchData } from "pdfjs-dist";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import Ats from "~/components/Ats";
@@ -30,6 +29,7 @@ const Resume = () => {
 
       if (!resume) return;
       const data = JSON.parse(resume);
+      console.log(data)
 
       const resumeBlob = await fs.read(data.resumePath);
       if (!resumeBlob) return;
