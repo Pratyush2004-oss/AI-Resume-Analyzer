@@ -150,3 +150,7 @@ form {
     opacity: 1;
   }
 }
+ *{
+  scrollbar-width: thin;
+  scrollbar-color: #8e98ff #f0f4ff;
+ }
