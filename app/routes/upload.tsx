@@ -1,5 +1,5 @@
 import { AIResponseFormat, prepareInstructions } from "../../constants";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import FileUploader from "~/components/FileUploader";
 import Navbar from "~/components/Navbar";
@@ -13,6 +13,9 @@ const upload = () => {
   const [file, setfile] = useState<File | null>(null);
   const { fs, auth, ai, kv, isLoading } = usePuterStore();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!auth.isAuthenticated) navigate("/auth?next=/upload");
+  }, [auth.isAuthenticated]);
 
   // handle File Uploads
   const handleFileSelect = (file: File | null) => {
@@ -35,19 +38,20 @@ const upload = () => {
       setisProcessing(true);
       setstatusText("Uploading the file...");
       const uploadFile = await fs.upload([file]);
-  
+
       if (!uploadFile) return setstatusText("Failed to upload file");
-  
+
       setstatusText("Converting to Image...");
       const imageFile = await convertPdfToImage(file);
-      if (!imageFile.file) return setstatusText("Failed to convert pdf to image");
-  
+      if (!imageFile.file)
+        return setstatusText("Failed to convert pdf to image");
+
       setstatusText("Uploading the Image...");
       const uploadImage = await fs.upload([imageFile.file]);
       if (!uploadImage) return setstatusText("Failed to upload image");
-  
+
       setstatusText("Preparing data....");
-  
+
       const uuid = generateUUID();
       const data = {
         id: uuid,
@@ -60,7 +64,7 @@ const upload = () => {
       };
       await kv.set(`resume:${uuid}`, JSON.stringify(data));
       setstatusText("Analyzing resume...");
-  
+
       const feedback = await ai.feedback(
         uploadFile.path,
         prepareInstructions({
@@ -69,24 +73,23 @@ const upload = () => {
           AIResponseFormat,
         })
       );
-  
+
       if (!feedback) return setstatusText("Error : Failed to analyze resume");
-  
+
       const feedbackText =
         typeof feedback.message.content === "string"
           ? feedback.message.content
           : feedback.message.content[0].text;
-  
+
       data.feedback = JSON.parse(feedbackText);
       await kv.set(`resume:${uuid}`, JSON.stringify(data));
-  
+
       setstatusText("Analysis complete, redirecting...");
-  
+
       navigate(`/resume/${uuid}`);
     } catch (error) {
       setstatusText("Error : Failed to analyze resume");
-    }
-    finally {
+    } finally {
       setisProcessing(false);
     }
   };

@@ -27,8 +27,10 @@ const ResumeCard = ({
     >
       <div className="resume-card-header">
         <div className="flex flex-col gap-2">
-          {companyName && (
+          {companyName ? (
             <h2 className="text-black font-bold break-words">{companyName}</h2>
+          ) : (
+            <h2 className="text-black font-bold break-words">Resume</h2>
           )}
           {jobTitle && (
             <h3 className="text-lg break-words text-gray-500">{jobTitle}</h3>

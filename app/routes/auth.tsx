@@ -14,8 +14,9 @@ const Auth: () => React.JSX.Element = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-   if(auth.isAuthenticated) navigate(next);
-  },[auth.isAuthenticated, next])
+    if(next === undefined) navigate("/");
+    if (auth.isAuthenticated) navigate(next, { replace: true });
+  }, [auth.isAuthenticated, next, navigate]);
 
   return (
     <main className="bg-[url('/images/bg-auth.svg')] bg-cover min-h-screen flex items-center justify-center">
