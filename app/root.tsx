@@ -11,6 +11,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { usePuterStore } from "./lib/puter";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -43,6 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <script src="https://js.puter.com/v2/"></script>
         {children}
         <ScrollRestoration />
+        <Toaster />
         <Scripts />
       </body>
     </html>

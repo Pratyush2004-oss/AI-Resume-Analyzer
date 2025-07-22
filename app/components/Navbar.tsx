@@ -6,14 +6,14 @@ const Navbar: () => React.JSX.Element = () => {
   return (
     <nav className="navbar">
       <Link to={"/"}>
-        <p className="text-2xl font-bold text-gradient">RESUMIND</p>
+        <p className="text-xl sm:text-2xl font-bold text-gradient">RESUMIND</p>
       </Link>
-      <div className="flex gap-4 items-center">
+      <div className="flex gap-2 items-center">
       <Link to={"/upload"} className="primary-button w-fit">
-        Upload Resume
+        Upload <span className="hidden md:inline">Resume</span>
       </Link>
       <button className="primary-button w-fit" onClick={auth.signOut}>
-        <p>Log Out</p>
+        <img src="/icons/logout.svg" alt="logout" className="size-5" />
       </button>
       </div>
     </nav>

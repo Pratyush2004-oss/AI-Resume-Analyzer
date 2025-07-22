@@ -1,7 +1,10 @@
+import { Quantum } from "ldrs/react";
+import "ldrs/react/Quantum.css";
 import { Link } from "react-router";
 import ScoreCircle from "./ScoreCircle";
 import { useEffect, useState } from "react";
 import { usePuterStore } from "~/lib/puter";
+import toast from "react-hot-toast";
 
 const ResumeCard = ({
   resume: { id, companyName, jobTitle, feedback, imagePath, resumePath },
@@ -21,10 +24,7 @@ const ResumeCard = ({
     loadResume();
   }, []);
   return (
-    <Link
-      to={`/resume/${id}`}
-      className="resume-card animate-in fade-in duration-100"
-    >
+    <div className="resume-card animate-in fade-in duration-100 relative">
       <div className="resume-card-header">
         <div className="flex flex-col gap-2">
           {companyName ? (
@@ -45,7 +45,10 @@ const ResumeCard = ({
       </div>
 
       {resumeUrl && (
-        <div className="gradient-border animate-in fade-in duration-1000">
+        <Link
+          to={`/resume/${id}`}
+          className="gradient-border animate-in fade-in duration-1000"
+        >
           <div className="w-full h-full">
             <img
               src={resumeUrl}
@@ -53,9 +56,9 @@ const ResumeCard = ({
               className="w-full h-[350px] max-sm:h-[200px] rounded-2xl object-cover object-top"
             />
           </div>
-        </div>
+        </Link>
       )}
-    </Link>
+    </div>
   );
 };
 

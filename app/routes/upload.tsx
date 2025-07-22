@@ -1,4 +1,3 @@
-import { AIResponseFormat, prepareInstructions } from "../../constants";
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 import FileUploader from "~/components/FileUploader";
@@ -6,12 +5,13 @@ import Navbar from "~/components/Navbar";
 import { convertPdfToImage } from "~/lib/pdfToImage";
 import { usePuterStore } from "~/lib/puter";
 import { generateUUID } from "~/lib/utils";
+import { AIResponseFormat, prepareInstructions } from "../../constants";
 
 const upload = () => {
   const [isProcessing, setisProcessing] = useState<boolean>(false);
   const [statusText, setstatusText] = useState<string>("");
   const [file, setfile] = useState<File | null>(null);
-  const { fs, auth, ai, kv, isLoading } = usePuterStore();
+  const { fs, auth, ai, kv } = usePuterStore();
   const navigate = useNavigate();
   useEffect(() => {
     if (!auth.isAuthenticated) navigate("/auth?next=/upload");
